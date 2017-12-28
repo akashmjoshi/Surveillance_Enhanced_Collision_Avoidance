@@ -1,0 +1,131 @@
+int hard_label_assign(Uint8 y_in, Uint8 cb_in, Uint8 cr_in){
+	Int32 i, j, k = 0;
+	int g_cr_ref, g_cb_ref, g_y_ref, g_out_label, g_diff_cb, g_diff_cr, g_diff_y;
+	int b_cr_ref, b_cb_ref, b_y_ref, b_out_label, b_diff_cb, b_diff_cr, b_diff_y;
+	
+	g_cb_ref = 98;
+	g_cr_ref = 142;
+	g_y_ref = 225;
+	g_out_label  = 1;
+	b_cb_ref = 139;
+	b_cr_ref = 123;
+	b_y_ref = 84;
+	b_out_label = 2;
+	
+	g_diff_cb = cb_in - g_cb_ref;
+	g_diff_cr = cr_in - g_cr_ref;
+	g_diff_y = y_in - g_y_ref;
+	
+	b_diff_cb = cb_in - b_cb_ref;
+	b_diff_cr = cr_in - b_cr_ref;
+	b_diff_y = y_in - b_y_ref;
+	
+	if((g_diff_cb < 10 && g_diff_cb > -10) 
+		&& (g_diff_cr < 8 && g_diff_cr > -8) 
+		//&& (g_diff_y < 10 && g_diff_y > -10)
+		){
+		return g_out_label;
+	}
+	else if((b_diff_cb < 9 && b_diff_cb > -9) 
+		&& (b_diff_cr < 7 && b_diff_cr > -7) 
+		//&& (b_diff_y < 10 && b_diff_y > -10)
+		){
+			return b_out_label;
+	}
+	else{
+		return 3;
+	}
+}
+
+int label_assign(Uint8 y_in, Uint8 cb_in, Uint8 cr_in){
+	Int32 i, j, k = 0;
+	int cr_ref, cb_ref, y_ref, out_label, diff_cb, diff_cr, diff_y;
+	for(i = 0; i < COLOR_SIZE; i++){
+		cb_ref = colors[i].cb;
+		cr_ref = colors[i].cr;
+		y_ref = colors[i].y;
+		out_label = colors[i].label;
+		
+		diff_cb = cb_in - cb_ref;
+		diff_cr = cr_in - cr_ref;
+		diff_y = y_in - y_ref;
+		if((diff_cb < 20 && diff_cb > -20) 
+		&& (diff_cr < 20 && diff_cr > -20) 
+		//&& (diff_y < 30 && diff_y > -30)
+		){
+			return out_label;
+		}
+		else if(cb_ref == 0 && cr_ref == 0 && y_ref == 0){
+			colors[i].cb = cb_in;
+			colors[i].cr = cr_in;
+			colors[i].y = y_in;
+			
+			return out_label;
+		}
+		else{
+			
+		}
+	}
+}
+
+
+
+//void rgb_conversion(){
+//	Int32 i, j, temp;
+//	Uint8 cr, cb;
+//	Uint8 y1, y0;
+//	Int8 cr_conv,cb_conv,y1_conv,y0_conv;
+//	Uint8 r,g,b;
+//	Uint16 r_cont,g_cont,b_cont;
+//	
+//	
+//	Uint32 index, m = 0;
+//	for(i=0; i<vHeight; ++i){
+//		for (j=0; j<vWidth/2; ++j){
+//			index = (i * vWidth/2) + j;
+//			temp = buffer_in[index];
+//			cr = (0x00FF0000 & temp) >> 16;
+//			cb = (0x000000FF & temp);
+////		y1 = (0xFF000000 & buffer_in[index]) >> 24;
+//			y0 = (0x0000FF00 & temp) >> 8;
+//			
+//			if(y0 < 16){ y0 = 238 + y0;}
+////			if(y1 < 16){ y1 = 238 + y1;}
+//			
+////			y0_conv = y0;
+//    		cb_conv = cb - 128;
+//    		cr_conv = cr - 128;
+//    		
+//    		r_cont = y0 + cr_conv + (cr_conv >> 2) + (cr_conv >> 3) + (cr_conv >> 5);
+//   			g_cont = y0 - ((cb_conv >> 2) + (cb_conv >> 4) + (cb_conv >> 5)) - ((cr_conv >> 1) + (cr_conv >> 3) + (cr_conv >> 4) + (cr_conv >> 5));
+//    		b_cont = y0 + cb_conv + ((cb_conv >> 1) + (cb_conv >> 2) + (cb_conv >> 6));
+//    		
+//			if(r_cont > 255){r = 255;}
+//    		else{r = r_cont;}
+//    		if(g_cont > 255){g = 255;}
+//    		else{g = g_cont;}
+//    		if(b_cont > 255){b = 255;}
+//    		else{b = b_cont;}
+//    		
+//    		
+//			rgb_buffer[m+1].r = r;
+//			rgb_buffer[m].r = r;
+//			rgb_buffer[m+1].g = g;
+//			rgb_buffer[m].g = g;
+//			rgb_buffer[m+1].b = b;
+//			rgb_buffer[m].b = b;
+//			
+//			m+=2;
+//		}
+//	}
+//}
+void init_colors(){
+	int i;
+	for(i = 0; i < COLOR_SIZE; i++){
+		colors[i].cb = 0;
+		colors[i].cr = 0;
+		colors[i].y = 0;
+		colors[i].label = i+1;
+	}
+}
+
